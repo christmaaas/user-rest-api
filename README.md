@@ -86,6 +86,10 @@ Deletes bookmark by ID:
 ## Requirements
 - go 1.22.5
 - docker & docker-compose
+- julienschmidt/httprouter
+```
+	$ go get github.com/julienschmidt/httprouter
+```
 
 ## Run Project
 
