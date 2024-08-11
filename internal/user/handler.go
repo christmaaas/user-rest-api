@@ -13,8 +13,8 @@ type handler struct {
 }
 
 const (
-	usersURL      = "/users"
-	usersParamURL = "/users/:uuid"
+	usersURL       = "/users"
+	usersParamsURL = "/users/:uuid"
 )
 
 func NewHandler() handlers.Handler {
@@ -23,10 +23,10 @@ func NewHandler() handlers.Handler {
 
 func (h *handler) Register(r *httprouter.Router) {
 	r.GET(usersURL, h.GetUsersList)
-	r.GET(usersParamURL, h.GetUserByUUID)
+	r.GET(usersParamsURL, h.GetUserByUUID)
 	r.POST(usersURL, h.CreateUser)
-	r.PUT(usersParamURL, h.UpdateUser)
-	r.DELETE(usersParamURL, h.DeleteUser)
+	r.PUT(usersParamsURL, h.UpdateUser)
+	r.DELETE(usersParamsURL, h.DeleteUser)
 }
 
 func (h *handler) GetUsersList(w http.ResponseWriter, r *http.Request, p httprouter.Params) {

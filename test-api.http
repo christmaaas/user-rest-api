@@ -1,0 +1,32 @@
+@Host = localhost
+@Port = 8080
+
+GET http://{{Host}}:{{Port}}/users
+
+###
+
+GET http://{{Host}}:{{Port}}/users/1
+
+###
+
+POST http://{{Host}}:{{Port}}/users
+Content-type: application/json
+
+{}
+
+###
+
+PUT http://{{Host}}:{{Port}}/users/1
+Content-type: application/json
+
+{}
+
+###
+
+DELETE http://{{Host}}:{{Port}}/users/1
+Content-type: application/json
+
+{}
+
+###
+
