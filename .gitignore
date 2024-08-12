@@ -1,3 +1,11 @@
+# Development environment
 .vscode
+
+# Environments
 .env
+
+# Distribution
 build
+
+# Logs
+logs

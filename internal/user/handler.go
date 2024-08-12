@@ -3,12 +3,13 @@ package user
 import (
 	"net/http"
 	"user-rest-api/internal/handlers"
+	"user-rest-api/pkg/logger"
 
 	"github.com/julienschmidt/httprouter"
 )
 
 type handler struct {
-	// TODO Logger
+	logger logger.Logger
 	// TODO Service
 }
 
@@ -17,8 +18,10 @@ const (
 	usersParamsURL = "/users/:uuid"
 )
 
-func NewHandler() handlers.Handler {
-	return &handler{}
+func NewHandler(logger logger.Logger) handlers.Handler {
+	return &handler{
+		logger: logger,
+	}
 }
 
 func (h *handler) Register(r *httprouter.Router) {
