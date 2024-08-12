@@ -1,7 +1,8 @@
 package main
 
 import (
-	"net/http"
+	"user-rest-api/internal/config"
+	"user-rest-api/internal/server"
 	"user-rest-api/internal/user"
 	"user-rest-api/pkg/logger"
 
@@ -12,6 +13,9 @@ func main() {
 	logger.InitLogger()
 	logger := logger.GetLogger()
 
+	logger.Info("config initializing")
+	cfg := config.GetConfig()
+
 	logger.Info("router initializing")
 	router := httprouter.New()
 
@@ -19,6 +23,6 @@ func main() {
 	handler := user.NewHandler(logger)
 	handler.Register(router)
 
-	logger.Info("server running...")
-	http.ListenAndServe(":8080", router)
+	logger.Info("application running")
+	server.Run(router, cfg)
 }
