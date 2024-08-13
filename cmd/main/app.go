@@ -2,8 +2,8 @@ package main
 
 import (
 	"user-rest-api/internal/config"
+	"user-rest-api/internal/handlers"
 	"user-rest-api/internal/server"
-	"user-rest-api/internal/user"
 	"user-rest-api/pkg/logger"
 
 	"github.com/julienschmidt/httprouter"
@@ -20,7 +20,7 @@ func main() {
 	router := httprouter.New()
 
 	logger.Info("handler initializing")
-	handler := user.NewHandler(logger)
+	handler := handlers.NewUserHandler(logger)
 	handler.Register(router)
 
 	logger.Info("application running")

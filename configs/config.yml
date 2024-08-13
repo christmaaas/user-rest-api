@@ -2,7 +2,7 @@ listen:
   bind_ip: 127.0.0.1
   port: 8080
 db:
-  name: "postgres"
+  name: "user_service"
   username: "postgres"
   host: "localhost"
   port: "5432"

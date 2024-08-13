@@ -16,9 +16,9 @@ const network = "tcp"
 func Run(router *httprouter.Router, cfg *config.Config) {
 	logger := logger.GetLogger()
 
-	logger.Infof("bind application to %s:%s", cfg.Listen.BindIP, cfg.Listen.Port)
+	logger.Infof("bind application to %s:%s", cfg.Connection.BindIP, cfg.Connection.Port)
 
-	listener, err := net.Listen(network, fmt.Sprintf("%s:%s", cfg.Listen.BindIP, cfg.Listen.Port))
+	listener, err := net.Listen(network, fmt.Sprintf("%s:%s", cfg.Connection.BindIP, cfg.Connection.Port))
 	if err != nil {
 		logger.Fatal(err)
 	}

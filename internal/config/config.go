@@ -10,17 +10,21 @@ import (
 )
 
 type Config struct {
-	Listen struct {
-		BindIP string `yaml:"bind_ip"`
-		Port   string `yaml:"port"`
-	} `yaml:"listen"`
-	Database struct {
-		Name     string `yaml:"name"`
-		Username string `yaml:"username"`
-		Host     string `yaml:"host"`
-		Port     string `yaml:"port"`
-		Password string `env:"DB_PASSWORD"`
-	} `yaml:"db"`
+	Connection ConnectionConfig `yaml:"listen"`
+	Storage    StorageConfig    `yaml:"db"`
+}
+
+type ConnectionConfig struct {
+	BindIP string `yaml:"bind_ip"`
+	Port   string `yaml:"port"`
+}
+
+type StorageConfig struct {
+	Name     string `yaml:"name"`
+	Username string `yaml:"username"`
+	Host     string `yaml:"host"`
+	Port     string `yaml:"port"`
+	Password string `env:"DB_PASSWORD"`
 }
 
 var (
@@ -48,7 +52,7 @@ func GetConfig() *Config {
 		if err := godotenv.Load(envConfigPath); err != nil {
 			logger.Fatal(err)
 		}
-		instance.Database.Password = os.Getenv("DB_PASSWORD")
+		instance.Storage.Password = os.Getenv("DB_PASSWORD")
 	})
 
 	return instance
