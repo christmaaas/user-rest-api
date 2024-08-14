@@ -1,29 +1,29 @@
 @Host = localhost
 @Port = 8080
 
-GET http://{{Host}}:{{Port}}/users
+GET http://{{Host}}:{{Port}}/api/users
 
 ###
 
-GET http://{{Host}}:{{Port}}/users/1
+GET http://{{Host}}:{{Port}}/api/users/7d6cbd6e-39a4-4ab6-9215-bf449b461e35
 
 ###
 
-POST http://{{Host}}:{{Port}}/users
+POST http://{{Host}}:{{Port}}/api/users
 Content-type: application/json
 
 {}
 
 ###
 
-PUT http://{{Host}}:{{Port}}/users/1
+PUT http://{{Host}}:{{Port}}/api/users/1
 Content-type: application/json
 
 {}
 
 ###
 
-DELETE http://{{Host}}:{{Port}}/users/1
+DELETE http://{{Host}}:{{Port}}/api/users/1
 Content-type: application/json
 
 {}

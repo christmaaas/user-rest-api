@@ -1,25 +1,28 @@
 package handlers
 
 import (
+	"encoding/json"
 	"net/http"
+	"user-rest-api/internal/service"
 	"user-rest-api/pkg/logger"
 
 	"github.com/julienschmidt/httprouter"
 )
 
 type usersHandler struct {
-	logger logger.Logger
-	// TODO UserService
+	logger  logger.Logger
+	service *service.UsersService
 }
 
 const (
-	usersURL       = "/users"
-	usersParamsURL = "/users/:uuid"
+	usersURL       = "/api/users"
+	usersParamsURL = "/api/users/:uuid"
 )
 
-func NewUserHandler(logger logger.Logger) Handler {
+func NewUserHandler(logger logger.Logger, service *service.UsersService) Handler {
 	return &usersHandler{
-		logger: logger,
+		logger:  logger,
+		service: service,
 	}
 }
 
@@ -36,7 +39,28 @@ func (h *usersHandler) GetUsersList(w http.ResponseWriter, r *http.Request, p ht
 }
 
 func (h *usersHandler) GetUserByUUID(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	w.Write([]byte("GetUserByUUID"))
+	h.logger.Info("GET USER BY UUID")
+	w.Header().Set("Content-Type", "application/json")
+
+	userUUID := p.ByName("uuid")
+
+	h.logger.Debug("fetching user by UUID")
+	user, err := h.service.GetOneUser(r.Context(), userUUID)
+	if err != nil {
+		h.logger.Fatal("asd")
+	}
+
+	h.logger.Debug("marshalling user")
+	userBytes, err := json.Marshal(user)
+	if err != nil {
+		h.logger.Fatal("asd")
+	}
+
+	w.WriteHeader(http.StatusOK)
+	_, writeErr := w.Write(userBytes)
+	if writeErr != nil {
+		h.logger.Fatal("asd")
+	}
 }
 
 func (h *usersHandler) CreateUser(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
