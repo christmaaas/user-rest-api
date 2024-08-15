@@ -36,7 +36,7 @@ func generatePasswordHash(password string) (string, error) {
 func (s *UsersService) CreateUser(ctx context.Context, dto domain.CreateUserDTO) (string, error) {
 	s.logger.Debug("check password and repeat password")
 	if dto.Password != dto.RepeatPassword {
-		return "", fmt.Errorf("password does not match repeat password") //apperror.BadRequestError("password does not match repeat password")
+		return "", apperror.ErrBadRequest
 	}
 
 	user := domain.NewUser(dto)
@@ -116,7 +116,7 @@ func (s *UsersService) UpdateUser(ctx context.Context, uuid string, dto domain.U
 		s.logger.Debug("compare current and old password hash")
 		err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(dto.OldPassword))
 		if err != nil {
-			return fmt.Errorf("password hashes are different") //apperror.BadRequestError("old password does not match current password")
+			return apperror.ErrBadRequest
 		}
 
 		dto.OldPassword = dto.NewPassword

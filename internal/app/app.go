@@ -53,7 +53,7 @@ func NewApp() App {
 	}
 }
 
-// startHTTP initializes and start http server
+// startHTTP initializes and starts http server
 // TODO: Handle HTTP server shutdown gracefully
 // by goroutine, channel and signals
 func (a *App) startHTTP() error {
