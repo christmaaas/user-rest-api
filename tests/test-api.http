@@ -5,25 +5,41 @@ GET http://{{Host}}:{{Port}}/api/users
 
 ###
 
-GET http://{{Host}}:{{Port}}/api/users/e3097561-2c66-4b61-8c33-cee65a83005y
+GET http://{{Host}}:{{Port}}/api/users/c5a15f19-7f59-42a6-bd8f-dc035ea55908
 
 ###
 
 POST http://{{Host}}:{{Port}}/api/users
 Content-type: application/json
 
-{}
+{
+    "first_name": "Jason",
+	"last_name": "Ivanov",
+	"email": "j.ivanov@mail.ru",
+	"phone": "+334239999999",
+	"login": "jason_ivanov_45",
+	"password": "qwerty12345",
+	"repeat_password": "qwerty12345"
+}
 
 ###
 
-PUT http://{{Host}}:{{Port}}/api/users/1
+PUT http://{{Host}}:{{Port}}/api/users/00c2c3de-49fb-4331-b08f-d447c5890853
 Content-type: application/json
 
-{}
+{
+    "first_name": "Johny",
+	"last_name": "Petrov",
+	"email": "petrov.jo@mail.ru",
+	"phone": "+334239999988",
+	"login": "johny_petrov_99",
+	"old_password": "qwerty12345",
+	"new_password": "qwerty56789"
+}
 
 ###
 
-DELETE http://{{Host}}:{{Port}}/api/users/1
+DELETE http://{{Host}}:{{Port}}/api/users/c5a15f19-7f59-42a6-bd8f-dc035ea55908
 Content-type: application/json
 
 {}
