@@ -10,7 +10,7 @@ import (
 
 type appHandle func(http.ResponseWriter, *http.Request, httprouter.Params) error
 
-func Middleware(h appHandle) httprouter.Handle {
+func AppErrorMiddleware(h appHandle) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 		err := h(w, r, p)
 
