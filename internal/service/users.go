@@ -2,7 +2,9 @@ package service
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"user-rest-api/internal/apperror"
 	"user-rest-api/internal/domain"
 	"user-rest-api/internal/repository"
 	"user-rest-api/pkg/logger"
@@ -49,10 +51,7 @@ func (s *UsersService) CreateUser(ctx context.Context, dto domain.CreateUserDTO)
 	userUUID, err := s.repository.Create(ctx, user)
 
 	if err != nil {
-		// if errors.Is(err, apperror.ErrNotFound) {
-		// 	return userUUID, err
-		// }
-		// return userUUID, fmt.Errorf("failed to create user. error: %w", err)
+		return userUUID, fmt.Errorf("failed to create user. error: %w", err)
 	}
 
 	return userUUID, nil
@@ -62,10 +61,10 @@ func (s *UsersService) GetOneUser(ctx context.Context, uuid string) (domain.User
 	user, err := s.repository.FindOne(ctx, uuid)
 
 	if err != nil {
-		// if errors.Is(err, apperror.ErrNotFound) {
-		// 	return u, err
-		// }
-		// return u, fmt.Errorf("failed to find user by uuid. error: %w", err)
+		if errors.Is(err, apperror.ErrNotFound) {
+			return user, err
+		}
+		return user, fmt.Errorf("failed to find user by uuid. error: %w", err)
 	}
 	return user, nil
 }
@@ -74,10 +73,10 @@ func (s *UsersService) GetAllUsers(ctx context.Context) ([]domain.User, error) {
 	users, err := s.repository.FindAll(ctx)
 
 	if err != nil {
-		// if errors.Is(err, apperror.ErrNotFound) {
-		// 	return u, err
-		// }
-		// return u, fmt.Errorf("failed to find user by uuid. error: %w", err)
+		if errors.Is(err, apperror.ErrNotFound) {
+			return users, err
+		}
+		return users, fmt.Errorf("failed to find all users. error: %w", err)
 	}
 	return users, nil
 }
@@ -86,10 +85,10 @@ func (s *UsersService) GetUserByEmail(ctx context.Context, email string) (domain
 	user, err := s.repository.FindByEmail(ctx, email)
 
 	if err != nil {
-		// if errors.Is(err, apperror.ErrNotFound) {
-		// 	return u, err
-		// }
-		// return u, fmt.Errorf("failed to find user by uuid. error: %w", err)
+		if errors.Is(err, apperror.ErrNotFound) {
+			return user, err
+		}
+		return user, fmt.Errorf("failed to find user by email. error: %w", err)
 	}
 	return user, nil
 }
@@ -98,10 +97,10 @@ func (s *UsersService) GetUserByPhone(ctx context.Context, phone string) (domain
 	user, err := s.repository.FindByPhone(ctx, phone)
 
 	if err != nil {
-		// if errors.Is(err, apperror.ErrNotFound) {
-		// 	return u, err
-		// }
-		// return u, fmt.Errorf("failed to find user by uuid. error: %w", err)
+		if errors.Is(err, apperror.ErrNotFound) {
+			return user, err
+		}
+		return user, fmt.Errorf("failed to find user by phone. error: %w", err)
 	}
 	return user, nil
 }
@@ -133,10 +132,10 @@ func (s *UsersService) UpdateUser(ctx context.Context, uuid string, dto domain.U
 	updatedUser.Password = pwd
 
 	if err = s.repository.Update(ctx, uuid, updatedUser); err != nil {
-		// if errors.Is(err, apperror.ErrNotFound) {
-		// 	return err
-		// }
-		// return fmt.Errorf("failed to update user. error: %w", err)
+		if errors.Is(err, apperror.ErrNotFound) {
+			return err
+		}
+		return fmt.Errorf("failed to update user. error: %w", err)
 	}
 	return nil
 }
@@ -145,10 +144,10 @@ func (s *UsersService) DeleteUser(ctx context.Context, uuid string) error {
 	err := s.repository.Delete(ctx, uuid)
 
 	if err != nil {
-		// if errors.Is(err, apperror.ErrNotFound) {
-		// 	return err
-		// }
-		// return fmt.Errorf("failed to delete user. error: %w", err)
+		if errors.Is(err, apperror.ErrNotFound) {
+			return err
+		}
+		return fmt.Errorf("failed to delete user. error: %w", err)
 	}
 	return nil
 }

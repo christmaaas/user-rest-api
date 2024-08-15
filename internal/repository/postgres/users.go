@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"user-rest-api/internal/apperror"
 	"user-rest-api/internal/domain"
 	"user-rest-api/internal/repository"
 	"user-rest-api/pkg/dbclient"
@@ -97,6 +98,9 @@ func (u *usersRepo) FindAll(ctx context.Context) ([]domain.User, error) {
 			var pgErr *pgconn.PgError
 			if errors.As(err, &pgErr) {
 				pgErr = err.(*pgconn.PgError)
+				if pgErr.Code == "23503" {
+					return nil, apperror.ErrNotFound
+				}
 
 				newErr := fmt.Errorf(fmt.Sprintf("SQL Error: %s, Detail: %s, Where: %s, Code: %s, SQLState: %s",
 					pgErr.Message,
@@ -145,6 +149,9 @@ func (u *usersRepo) FindOne(ctx context.Context, uuid string) (domain.User, erro
 		var pgErr *pgconn.PgError
 		if errors.As(err, &pgErr) {
 			pgErr = err.(*pgconn.PgError)
+			if pgErr.Code == "23503" {
+				return domain.User{}, apperror.ErrNotFound
+			}
 
 			newErr := fmt.Errorf(fmt.Sprintf("SQL Error: %s, Detail: %s, Where: %s, Code: %s, SQLState: %s",
 				pgErr.Message,
@@ -187,6 +194,9 @@ func (u *usersRepo) FindByEmail(ctx context.Context, email string) (domain.User,
 		var pgErr *pgconn.PgError
 		if errors.As(err, &pgErr) {
 			pgErr = err.(*pgconn.PgError)
+			if pgErr.Code == "23503" {
+				return domain.User{}, apperror.ErrNotFound
+			}
 
 			newErr := fmt.Errorf(fmt.Sprintf("SQL Error: %s, Detail: %s, Where: %s, Code: %s, SQLState: %s",
 				pgErr.Message,
@@ -229,6 +239,9 @@ func (u *usersRepo) FindByPhone(ctx context.Context, phone string) (domain.User,
 		var pgErr *pgconn.PgError
 		if errors.As(err, &pgErr) {
 			pgErr = err.(*pgconn.PgError)
+			if pgErr.Code == "23503" {
+				return domain.User{}, apperror.ErrNotFound
+			}
 
 			newErr := fmt.Errorf(fmt.Sprintf("SQL Error: %s, Detail: %s, Where: %s, Code: %s, SQLState: %s",
 				pgErr.Message,
@@ -275,6 +288,10 @@ func (u *usersRepo) Update(ctx context.Context, uuid string, user domain.User) e
 		uuid).Scan(&id)
 	if err != nil {
 		var pgErr *pgconn.PgError
+		if pgErr.Code == "23503" {
+			return apperror.ErrNotFound
+		}
+
 		if errors.As(err, &pgErr) {
 			pgErr = err.(*pgconn.PgError)
 
@@ -310,6 +327,9 @@ func (u *usersRepo) Delete(ctx context.Context, uuid string) error {
 		var pgErr *pgconn.PgError
 		if errors.As(err, &pgErr) {
 			pgErr = err.(*pgconn.PgError)
+			if pgErr.Code == "23503" {
+				return apperror.ErrNotFound
+			}
 
 			newErr := fmt.Errorf(fmt.Sprintf("SQL Error: %s, Detail: %s, Where: %s, Code: %s, SQLState: %s",
 				pgErr.Message,

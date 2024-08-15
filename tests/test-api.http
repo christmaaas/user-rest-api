@@ -5,7 +5,7 @@ GET http://{{Host}}:{{Port}}/api/users
 
 ###
 
-GET http://{{Host}}:{{Port}}/api/users/7d6cbd6e-39a4-4ab6-9215-bf449b461e35
+GET http://{{Host}}:{{Port}}/api/users/7d6cbd6e-39a4-4ab6-9215-bf449b461e39
 
 ###
 
