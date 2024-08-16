@@ -1,4 +1,6 @@
-# Go Clean Architecture
+# USER REST API
+
+REST API service responsible for managing user information across the entire application or ecosystem.
 
 ## Structure:
 4 Domain layers:
@@ -10,87 +12,105 @@
 
 ## API:
 
-### POST /auth/sign-up
+### POST /api/users
 
-Creates new user 
-
-##### Example Input: 
-```
-{
-	"username": "UncleBob",
-	"password": "cleanArch"
-} 
-```
-
-
-### POST /auth/sign-in
-
-Request to get JWT Token based on user credentials
+Creates new user
 
 ##### Example Input: 
 ```
 {
-	"username": "UncleBob",
-	"password": "cleanArch"
+	"first_name": "Jason",
+	"last_name": "Ivanov",
+	"email": "j.ivanov@mail.ru",
+	"phone": "+334239999999",
+	"login": "jason_ivanov_45",
+	"password": "qwerty12345",
+	"repeat_password": "qwerty12345"
 } 
 ```
+
+### GET /api/users
+
+Returns all users
 
 ##### Example Response: 
 ```
 {
-	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzEwMzgyMjQuNzQ0MzI0MiwidXNlciI6eyJJRCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCIsIlVzZXJuYW1lIjoiemhhc2hrZXZ5Y2giLCJQYXNzd29yZCI6IjQyODYwMTc5ZmFiMTQ2YzZiZDAyNjlkMDViZTM0ZWNmYmY5Zjk3YjUifX0.3dsyKJQ-HZJxdvBMui0Mzgw6yb6If9aB8imGhxMOjsk"
+	[
+	  {
+	    "uuid": "8a3a174e-5620-4374-a4ef-d56478249b15",
+	    "first_name": "Jason",
+	    "last_name": "Ivanov",
+	    "email": "j.ivanov@mail.ru",
+	    "phone": "+3752989824238",
+	    "password": "qwerty12345",
+	    "login": "jason_ivanov_45"
+	  },
+	  {
+	    "uuid": "01be8933-da7a-41fa-9482-80529096fbd2",
+	    "first_name": "Johny",
+	    "last_name": "Petrov",
+	    "email": "petrov.jo@mail.ru",
+	    "phone": "+334239999988",
+	    "password": "qwerty12345",
+	    "login": "johny_petrov_99"
+	  }
+	]
 } 
 ```
 
-### POST /api/bookmarks
+### GET /api/users/:uuid
 
-Creates new bookmark
-
-##### Example Input: 
-```
-{
-	"url": "https://github.com/zhashkevych/go-clean-architecture",
-	"title": "Go Clean Architecture example"
-} 
-```
-
-### GET /api/bookmarks
-
-Returns all user bookmarks
+Returns user with uuid
 
 ##### Example Response: 
 ```
 {
-	"bookmarks": [
-            {
-                "id": "5da2d8aae9b63715ddfae856",
-                "url": "https://github.com/zhashkevych/go-clean-architecture",
-                "title": "Go Clean Architecture example"
-            }
-    ]
+	"uuid": "8a3a174e-5620-4374-a4ef-d56478249b15",
+	"first_name": "Jason",
+	"last_name": "Ivanov",
+	"email": "j.ivanov@mail.ru",
+	"phone": "+3752989824238",
+	"password": "qwerty12345",
+	"login": "jason_ivanov_45"
 } 
 ```
 
-### DELETE /api/bookmarks
+### DELETE /api/users/:uuid
 
-Deletes bookmark by ID:
+Deletes user with uuid
+
+### PUT /api/users/:uuid
+
+Updates user with uuid
 
 ##### Example Input: 
 ```
 {
-	"id": "5da2d8aae9b63715ddfae856"
+	"first_name": "Johny",
+	"last_name": "Petrov",
+	"email": "petrov.jo@mail.ru",
+	"phone": "+334239999988",
+	"login": "johny_petrov_99",
+	"old_password": "qwerty12345",
+	"new_password": "qwerty56789"
 } 
 ```
-
 
 ## Requirements
 - go 1.22.5
 - docker & docker-compose
 - julienschmidt/httprouter
-```
-	$ go get github.com/julienschmidt/httprouter
-```
+- sirupsen/logrus
+- ilyakaznacheev/cleanenv
+- jackc/pgx
 
 ## Run Project
 
-Use ```make run``` to build and run docker containers with application itself and mongodb instance
+Create ```.env``` file in root directory and add following values:
+```dotenv
+DB_PASSWORD=your_database_password
+```
+Create ```logs/app.log``` file in root directory
+
+Use ```make run``` to build and run application
