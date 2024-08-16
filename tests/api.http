@@ -13,10 +13,10 @@ POST http://{{Host}}:{{Port}}/api/users
 Content-type: application/json
 
 {
-    "first_name": "Jasonn",
-	"last_name": "Ivanov2",
+    "first_name": "Jason",
+	"last_name": "Ivanov",
 	"email": "j.ivanov@mail.ru",
-	"phone": "+334239999995",
+	"phone": "+334239999999",
 	"login": "jason_ivanov_45",
 	"password": "qwerty12345",
 	"repeat_password": "qwerty12345"
@@ -24,14 +24,14 @@ Content-type: application/json
 
 ###
 
-PUT http://{{Host}}:{{Port}}/api/users/e081069a-3b47-4995-ace0-bbdac9d05737
+PUT http://{{Host}}:{{Port}}/api/users/e89dbee7-555c-494a-a8c0-a452827d4543
 Content-type: application/json
 
 {
     "first_name": "Johny",
 	"last_name": "Petrov",
 	"email": "petrov.jo@mail.ru",
-	"phone": "+334239999993",
+	"phone": "+334239999988",
 	"login": "johny_petrov_99",
 	"old_password": "qwerty12345",
 	"new_password": "qwerty56789"
@@ -39,7 +39,7 @@ Content-type: application/json
 
 ###
 
-DELETE http://{{Host}}:{{Port}}/api/users/68c4ad88-2362-4480-820e-58066b0f5d6a
+DELETE http://{{Host}}:{{Port}}/api/users/e89dbee7-555c-494a-a8c0-a452827d4543
 Content-type: application/json
 
 {}
