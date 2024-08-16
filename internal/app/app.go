@@ -26,7 +26,7 @@ type App struct {
 
 // NewApp initializes the whole application
 func NewApp() App {
-	logger.InitLogger()
+	logger.Init()
 	logger := logger.GetLogger()
 	logger.Info("initializing application")
 

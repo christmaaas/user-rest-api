@@ -30,11 +30,11 @@ func NewUserHandler(logger logger.Logger, service *service.UsersService) Handler
 }
 
 func (h *usersHandler) Register(r *httprouter.Router) {
-	r.GET(usersURL, AppErrorMiddleware(h.GetUsersList))
-	r.GET(usersParamsURL, AppErrorMiddleware(h.GetUserByUUID))
-	r.POST(usersURL, AppErrorMiddleware(h.CreateUser))
-	r.PUT(usersParamsURL, AppErrorMiddleware(h.UpdateUser))
-	r.DELETE(usersParamsURL, AppErrorMiddleware(h.DeleteUser))
+	r.GET(usersURL, UserMiddleware(h.GetUsersList))
+	r.GET(usersParamsURL, UserMiddleware(h.GetUserByUUID))
+	r.POST(usersURL, UserMiddleware(h.CreateUser))
+	r.PUT(usersParamsURL, UserMiddleware(h.UpdateUser))
+	r.DELETE(usersParamsURL, UserMiddleware(h.DeleteUser))
 }
 
 func (h *usersHandler) GetUsersList(w http.ResponseWriter, r *http.Request, p httprouter.Params) error {
@@ -55,7 +55,6 @@ func (h *usersHandler) GetUsersList(w http.ResponseWriter, r *http.Request, p ht
 
 	w.WriteHeader(http.StatusOK)
 	w.Write(userBytes)
-
 	return nil
 }
 
@@ -79,7 +78,6 @@ func (h *usersHandler) GetUserByUUID(w http.ResponseWriter, r *http.Request, p h
 
 	w.WriteHeader(http.StatusOK)
 	w.Write(userBytes)
-
 	return nil
 }
 
@@ -102,7 +100,6 @@ func (h *usersHandler) CreateUser(w http.ResponseWriter, r *http.Request, p http
 
 	w.Header().Set("Location", fmt.Sprintf("%s/%s", usersURL, userUUID))
 	w.WriteHeader(http.StatusCreated)
-
 	return nil
 }
 
@@ -117,8 +114,8 @@ func (h *usersHandler) DeleteUser(w http.ResponseWriter, r *http.Request, p http
 	if err != nil {
 		return err
 	}
-	w.WriteHeader(http.StatusNoContent)
 
+	w.WriteHeader(http.StatusNoContent)
 	return nil
 }
 
@@ -139,7 +136,7 @@ func (h *usersHandler) UpdateUser(w http.ResponseWriter, r *http.Request, p http
 	if err != nil {
 		return err
 	}
-	w.WriteHeader(http.StatusNoContent)
 
+	w.WriteHeader(http.StatusNoContent)
 	return nil
 }

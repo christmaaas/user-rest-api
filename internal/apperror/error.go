@@ -13,6 +13,7 @@ var (
 	ErrNotFound       = NewAppError(http.StatusNotFound, "00103", "not found")
 	ErrUnauthorized   = NewAppError(http.StatusUnauthorized, "00104", "unauthorized")
 	ErrForbidden      = NewAppError(http.StatusForbidden, "00105", "access forbidden")
+	ErrConflict       = NewAppError(http.StatusConflict, "00106", "resource conflict")
 )
 
 type AppError struct {

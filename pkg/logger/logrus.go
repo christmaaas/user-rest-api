@@ -100,7 +100,7 @@ func (hook *writerHook) Levels() []logrus.Level {
 	return hook.LogLevels
 }
 
-func InitLogger() {
+func Init() {
 	l := logrus.New()
 
 	l.SetReportCaller(true)

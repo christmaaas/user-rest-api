@@ -10,10 +10,9 @@ import (
 
 type appHandle func(http.ResponseWriter, *http.Request, httprouter.Params) error
 
-func AppErrorMiddleware(h appHandle) httprouter.Handle {
+func UserMiddleware(h appHandle) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 		err := h(w, r, p)
-
 		if err != nil {
 			var appErr *apperror.AppError
 			if errors.As(err, &appErr) {
@@ -34,13 +33,17 @@ func AppErrorMiddleware(h appHandle) httprouter.Handle {
 					w.WriteHeader(http.StatusForbidden)
 					w.Write(apperror.ErrForbidden.Marshal())
 
+				case errors.Is(err, apperror.ErrConflict):
+					w.WriteHeader(http.StatusConflict)
+					w.Write(apperror.ErrConflict.Marshal())
+
 				default:
 					w.WriteHeader(http.StatusBadRequest)
 					w.Write(appErr.Marshal())
 				}
 				return
 			}
-			w.WriteHeader(http.StatusTeapot)
+			w.WriteHeader(http.StatusInternalServerError)
 			w.Write(apperror.ErrInternalSystem.Marshal())
 		}
 	}

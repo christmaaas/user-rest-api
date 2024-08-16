@@ -29,7 +29,6 @@ func generatePasswordHash(password string) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("failed to hash password due to error %w", err)
 	}
-
 	return string(hash), nil
 }
 
@@ -49,17 +48,17 @@ func (s *UsersService) CreateUser(ctx context.Context, dto domain.CreateUserDTO)
 	user.Password = pwd
 
 	userUUID, err := s.repository.Create(ctx, user)
-
 	if err != nil {
+		if errors.Is(err, apperror.ErrConflict) {
+			return userUUID, err
+		}
 		return userUUID, fmt.Errorf("failed to create user. error: %w", err)
 	}
-
 	return userUUID, nil
 }
 
 func (s *UsersService) GetOneUser(ctx context.Context, uuid string) (domain.User, error) {
 	user, err := s.repository.FindOne(ctx, uuid)
-
 	if err != nil {
 		if errors.Is(err, apperror.ErrNotFound) {
 			return user, err
@@ -71,7 +70,6 @@ func (s *UsersService) GetOneUser(ctx context.Context, uuid string) (domain.User
 
 func (s *UsersService) GetAllUsers(ctx context.Context) ([]domain.User, error) {
 	users, err := s.repository.FindAll(ctx)
-
 	if err != nil {
 		if errors.Is(err, apperror.ErrNotFound) {
 			return users, err
@@ -83,7 +81,6 @@ func (s *UsersService) GetAllUsers(ctx context.Context) ([]domain.User, error) {
 
 func (s *UsersService) GetUserByEmail(ctx context.Context, email string) (domain.User, error) {
 	user, err := s.repository.FindByEmail(ctx, email)
-
 	if err != nil {
 		if errors.Is(err, apperror.ErrNotFound) {
 			return user, err
@@ -95,7 +92,6 @@ func (s *UsersService) GetUserByEmail(ctx context.Context, email string) (domain
 
 func (s *UsersService) GetUserByPhone(ctx context.Context, phone string) (domain.User, error) {
 	user, err := s.repository.FindByPhone(ctx, phone)
-
 	if err != nil {
 		if errors.Is(err, apperror.ErrNotFound) {
 			return user, err
@@ -132,7 +128,7 @@ func (s *UsersService) UpdateUser(ctx context.Context, uuid string, dto domain.U
 	updatedUser.Password = pwd
 
 	if err = s.repository.Update(ctx, uuid, updatedUser); err != nil {
-		if errors.Is(err, apperror.ErrNotFound) {
+		if errors.Is(err, apperror.ErrConflict) {
 			return err
 		}
 		return fmt.Errorf("failed to update user. error: %w", err)
@@ -142,7 +138,6 @@ func (s *UsersService) UpdateUser(ctx context.Context, uuid string, dto domain.U
 
 func (s *UsersService) DeleteUser(ctx context.Context, uuid string) error {
 	err := s.repository.Delete(ctx, uuid)
-
 	if err != nil {
 		if errors.Is(err, apperror.ErrNotFound) {
 			return err
