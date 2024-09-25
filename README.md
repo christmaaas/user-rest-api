@@ -113,4 +113,8 @@ DB_PASSWORD=your_database_password
 ```
 Create ```logs/app.log``` file in root directory
 
-Use ```make run``` to build and run application
+Use ```make linux_run``` to build and run application for linux-based system
+
+```or```
+
+Use ```make win_run``` to build and run application for windows
