@@ -5,7 +5,7 @@ GET http://{{Host}}:{{Port}}/api/users
 
 ###
 
-GET http://{{Host}}:{{Port}}/api/users/e89dbee7-555c-494a-a8c0-a452827d4543
+GET http://{{Host}}:{{Port}}/api/users/10edcdc1-30f8-4cd6-bf29-b6315bb018d4
 
 ###
 
@@ -24,7 +24,7 @@ Content-type: application/json
 
 ###
 
-PUT http://{{Host}}:{{Port}}/api/users/e89dbee7-555c-494a-a8c0-a452827d4543
+PUT http://{{Host}}:{{Port}}/api/users/10edcdc1-30f8-4cd6-bf29-b6315bb018d4
 Content-type: application/json
 
 {
@@ -39,7 +39,7 @@ Content-type: application/json
 
 ###
 
-DELETE http://{{Host}}:{{Port}}/api/users/e89dbee7-555c-494a-a8c0-a452827d4543
+DELETE http://{{Host}}:{{Port}}/api/users/10edcdc1-30f8-4cd6-bf29-b6315bb018d4
 Content-type: application/json
 
 {}
